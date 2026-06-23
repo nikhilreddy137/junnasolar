@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, TrendingDown, Zap, CalendarCheck2, CheckCircle2, Loader2 } from "lucide-react";
+import { ArrowRight, TrendingDown, Zap, CalendarCheck2, CheckCircle2 } from "lucide-react";
 import { track, EVENTS } from "@/lib/analytics";
-import { submitZohoLead, ZOHO_SUCCESS_MSG } from "@/lib/zohoLead";
-import { toast } from "sonner";
 
 // ─── Calculator config ────────────────────────────────────────────────────────
 const SAVINGS_CONFIG = {
@@ -61,8 +59,6 @@ export const QuickEstimator = () => {
   const [segment, setSegment] = useState("home");
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
-  const [bookingLoading, setBookingLoading] = useState(false);
-  const [booked, setBooked] = useState(false);
   const nav = useNavigate();
 
   const handleInput = (e) => {
@@ -198,42 +194,23 @@ export const QuickEstimator = () => {
             <p className="flex-1 text-[11.5px] leading-relaxed text-[rgb(var(--js-muted))]">
               Indicative range. Final figures after free rooftop visit.
             </p>
-            {booked ? (
-              <div className="flex items-center gap-2 text-[rgb(var(--js-primary-dark))] text-xs font-medium">
-                <CheckCircle2 className="h-4 w-4" /> Request received!
-              </div>
-            ) : (
+            {(
               <button
                 type="button"
                 data-testid="quick-survey-cta"
-                disabled={bookingLoading}
-                onClick={async () => {
-                  setBookingLoading(true);
-                  try {
-                    await submitZohoLead({
-                      formName: "Homepage Quick Estimator",
-                      pageSource: "home",
-                      enquiryType: segment === "home" ? "Residential" : segment === "business" ? "Commercial" : "Society",
-                      monthlyBill: bill ? `₹${bill}` : "",
-                      estimatedSystemSize: result ? `${result.solarSizeKw} kW` : "",
-                      estimatedMonthlySavings: result ? formatINR(result.monthlySavings) : "",
-                      estimatedAnnualSavings: result ? formatINR(result.yearlySavings) : "",
-                      estimatedPayback: result ? result.payback : "",
-                      // phone not collected here — navigate to contact form
-                      phone: "0000000000", // placeholder; contact form collects real phone
-                    });
-                    setBooked(true);
-                    toast.success(ZOHO_SUCCESS_MSG);
-                  } catch (err) {
-                    // Fall back to contact page if Zoho fails
-                    nav("/contact?action=survey");
-                  } finally {
-                    setBookingLoading(false);
-                  }
+                onClick={() => {
+                  track(EVENTS.LEAD_START, { source: "quick-estimator" });
+                  const q = new URLSearchParams({
+                    segment: segment === "business" ? "business" : segment === "society" ? "society" : "home",
+                    bill: bill || "",
+                    kw: result ? String(result.solarSizeKw) : "",
+                    action: "survey",
+                  }).toString();
+                  nav(`/contact?${q}`);
                 }}
-                className="btn-accent !w-full sm:!w-auto whitespace-nowrap disabled:opacity-60"
+                className="btn-accent !w-full sm:!w-auto whitespace-nowrap"
               >
-                {bookingLoading ? <><Loader2 className="h-4 w-4 animate-spin" /> Booking…</> : <>Book free rooftop survey <ArrowRight className="h-4 w-4" /></>}
+                Book free rooftop survey <ArrowRight className="h-4 w-4" />
               </button>
             )}
           </div>

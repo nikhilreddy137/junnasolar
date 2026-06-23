@@ -82,22 +82,26 @@ export const SavingsEstimator = ({ defaultSegment = "home" }) => {
     const nameParts = (form.name || "").trim().split(/\s+/);
     const firstName = nameParts[0] || "";
     const lastName = nameParts.slice(1).join(" ") || nameParts[0] || "Website Lead";
+    const enquiryMap = { home: "Residential", business: "Commercial", society: "Society", institution: "Government / Institution" };
+    const segmentMap = { home: "home", business: "business", society: "society", institution: "government" };
     try {
       await submitZohoLead({
-        formName: "Residential Savings Estimator",
+        formName: "Savings Estimator",
         pageSource: "homes",
-        enquiryType: "Residential",
+        segment: segmentMap[form.segment] || "home",
+        enquiryType: enquiryMap[form.segment] || "Residential",
         firstName,
         lastName,
         fullName: form.name || "",
         phone: form.phone,
         cityOrPincode: form.city,
-        monthlyBill: form.monthly_bill ? `₹${form.monthly_bill}` : "",
+        monthlyBill: form.monthly_bill || "",
         propertyType: form.property_type,
+        systemSizeKw: r ? r.system_size_kw_min : undefined,
         estimatedSystemSize: r ? `${r.system_size_kw_min}–${r.system_size_kw_max} kW` : "",
         estimatedMonthlySavings: r ? `${inr(r.monthly_savings_min)}–${inr(r.monthly_savings_max)}` : "",
         estimatedAnnualSavings: r ? `${inr(r.annual_savings_min)}–${inr(r.annual_savings_max)}` : "",
-        estimatedPayback: "4–5 years (indicative)",
+        estimatedPayback: r ? r.payback : "4–5 years (indicative)",
       });
       setLeadSent(true);
     } catch (err) {

@@ -299,6 +299,14 @@ class ZohoLeadPayload(BaseModel):
     utmCampaign: Optional[str] = None
     utmTerm: Optional[str] = None
     utmContent: Optional[str] = None
+    # Junna CRM-specific fields
+    segment: Optional[str] = None
+    systemSizeKw: Optional[float] = None
+    subsidy: Optional[str] = None  # "Yes" / "No"
+    industryType: Optional[str] = None
+    governmentName: Optional[str] = None
+    rooftopAreaSqft: Optional[str] = None
+    budgetRange: Optional[str] = None
 
 
 @api_router.post("/zoho/lead", status_code=201)
