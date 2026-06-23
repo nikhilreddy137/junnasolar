@@ -1,68 +1,57 @@
 # Junna Solar — PRD
 
-## Problem Statement
-Clone https://github.com/nikhilreddy137/junnasolar, run, and unify all website forms with correct Zoho CRM field mapping.
+## Problem
+Clone & run https://github.com/nikhilreddy137/junnasolar. Unify all website forms into a single, consistent lead-capture component mapped correctly to Zoho CRM custom fields.
 
 ## Architecture
 - Frontend: React 19 + CRACO + Tailwind (port 3000)
 - Backend: FastAPI + Motor (Mongo) on port 8001 (all `/api` routes)
-- Integrations: **Zoho CRM Leads** (Indian DC `.in`) — configured via .env
+- Integration: Zoho CRM Leads (Indian DC), creds in `backend/.env`
 
-## Zoho CRM Integration (LIVE)
-- Credentials in `backend/.env`: `ZOHO_CLIENT_ID/SECRET/REFRESH_TOKEN`
-- Layout routing: B2C → `1259423000000000167`, B2B → `1259423000000688027`
-- Lead Source = "Online Store" (constant), Status = "Not Contacted"
-- Project_Type = "Rooftop Solar" (constant)
-- Subsidy auto-derived: B2C + bill ≤ ₹10k → "Yes", else "No"
-- Mobile field mirrored from Phone (B2B layout mandatory)
-- Duplicate detection by Phone/Email → updates Feedback_Notes instead of creating dup
+## ONE Unified Form (LeadForm.jsx)
+The same `<LeadForm>` component is now used everywhere:
 
-## Website Forms (UNIFIED)
-All forms call `submitZohoLead()` → `POST /api/zoho/lead`.
-
-| Page | Form | Segment options |
+| Page | Default segment | Notes |
 |---|---|---|
-| `/`, `/contact`, `/residential`, `/homes` | LeadForm | Home / Society / Business / Government |
-| `/commercial`, `/businesses` | LeadForm (B2B prefilled) | same |
-| `/communities`, `/societies` | LeadForm (Society prefilled) | same |
-| `/homes` (estimator section) | SavingsEstimator (with phone capture) | Home / Business / Society / Institution |
-| `/` (homepage chip) | QuickEstimator (calc only) | Home / Business / Society — submits via /contact prefilled |
+| `/contact` | from URL `?segment=` | Main contact page |
+| `/homes`, `/residential` | home | Used inside SavingsEstimator after calc |
+| `/commercial`, `/businesses` | business | |
+| `/communities`, `/societies` | society | Newly added |
+| `/` (homepage) | home | Inside SavingsEstimator after calc; QuickEstimator routes to /contact |
 
-### Form → Zoho field mapping (final)
-| Form field | Zoho API field | Zoho UI label |
-|---|---|---|
-| segment (home/society/business/government) | `Lead_Type` (B2C/B2C/B2B/B2G) + `Layout` | Lead Type / Layout |
-| Full name | `First_Name` + `Last_Name` | Lead Name |
-| Phone | `Phone` + `Mobile` | Phone |
-| Email | `Email` | Email |
-| City / pincode | `City` + `Site_Address` | Address |
-| Avg monthly bill | `Monthly_Electricity_Bill` | Monthly Electricity Bill |
-| Property type | `Looking_for` (composed) | Requirements |
-| Rooftop area | `Rooftop_Area_sq_ft` | Rooftop Area (sq.ft) |
-| Industry / business type | `Industry_Type` | Industry Type |
-| Department / Institution | `Government_Name` | Government Name |
-| Budget range | `Budget_Range` | Budget Range |
-| Estimator system size (kW) | `Required_System_Size_KW` | Required System Capacity |
-| (auto) Rooftop Solar | `Project_Type` | Project Type |
-| (auto) Yes/No | `Subsidy` | Subsidy |
-| Notes | `Description` | Note |
-| (audit) UTM + URL + Form name etc. | `Feedback_Notes` | Description |
+`<CTASection>` on About / Products / CaseStudies / Trust links to `/contact?action=survey` → same LeadForm.
+
+## SavingsEstimator (Calculator + LeadForm)
+- Pure calculator: pick segment + enter bill → see indicative monthly/annual savings, system size, payback.
+- After calculation, the unified `<LeadForm>` appears beneath, prefilled with bill, segment & system size.
+
+## Zoho CRM mapping (verified)
+| Form input | Zoho field |
+|---|---|
+| Segment | `Lead_Type` (B2C/B2B/B2G) + `Layout` (B2C `…167` / B2B `…027`) |
+| Name | `First_Name` + `Last_Name` |
+| Phone | `Phone` + `Mobile` |
+| Email | `Email` |
+| City | `City`, `Site_Address` |
+| Monthly bill | `Monthly_Electricity_Bill` |
+| Property type / segment summary | `Looking_for` (Requirements) |
+| Rooftop area | `Rooftop_Area_sq_ft` |
+| Industry / Govt name | `Industry_Type` / `Government_Name` |
+| Budget range | `Budget_Range` |
+| Estimator kW | `Required_System_Size_KW` |
+| Auto | `Project_Type=Rooftop Solar`, `Lead_Source=Online Store`, `Lead_Status=Not Contacted`, `Subsidy=Yes/No` |
+| Notes | `Description` |
+| Audit (UTM, page, etc.) | `Feedback_Notes` |
+
+Duplicates on Phone/Email update the existing lead's audit notes instead of creating new.
 
 ## Verified end-to-end
-- B2C residential lead → "Leads - B2C" layout, all custom fields filled ✓
-- B2B business lead → "Leads - B2B" layout, Industry_Type populated ✓
-- Phone duplicates update Feedback_Notes instead of creating new lead ✓
-- QuickEstimator no longer submits junk `phone=0000000000` leads ✓
-
-## Recent Changes (2026-01)
-- Removed dark navy stats strip ("13+ / 125+ MW…") from homepage
-- Connected Zoho CRM (created Self Client app, exchanged auth code for refresh token)
-- Rewrote `backend/zoho_lead.py` to map to actual Zoho custom field API names (Lead_Type, Project_Type, Monthly_Electricity_Bill, Required_System_Size_KW, Subsidy, Looking_for, Industry_Type, Government_Name, Rooftop_Area_sq_ft, Budget_Range, Layout)
-- Replaced 3-step LeadForm with a single-step clearer form with segment-aware fields
-- Removed misleading "Upload bill" UI (was non-functional)
-- QuickEstimator now navigates to /contact with prefilled query params instead of creating dummy leads
+- B2C residential lead → Leads-B2C layout with all custom fields populated ✓
+- B2B business lead → Leads-B2B layout with `Industry_Type`, `Company`, etc. ✓
+- B2G government → Leads-B2C layout with `Lead_Type=B2G`, `Government_Name` set ✓
+- Society → Leads-B2C layout ✓
 
 ## Backlog
-- (P2) Allow real bill upload (Zoho `Upload_Electricity_Bill` file field) via multipart
-- (P2) Pre-select country code +91 input
-- (P3) Add "Government" picklist value to `Lead_Source` for cleaner reporting (currently mapped to "Online Store")
+- P2: Real PDF/image upload (Zoho `Upload_Electricity_Bill` field)
+- P3: Add "Junna Website" to Lead_Source picklist in Zoho
+- P3: WhatsApp auto-receipt on lead submission

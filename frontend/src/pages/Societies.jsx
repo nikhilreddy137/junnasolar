@@ -1,8 +1,8 @@
 import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import CaseStudyCard, { CASE_STUDIES } from "@/components/CaseStudyCard";
-import CTASection from "@/components/CTASection";
 import FAQ from "@/components/FAQ";
+import LeadForm from "@/components/LeadForm";
 import { useSEO, faqJsonLd } from "@/lib/seo";
 import { Users2, FileText, Download, ClipboardList } from "lucide-react";
 import { track, EVENTS } from "@/lib/analytics";
@@ -63,7 +63,24 @@ export default function Societies() {
       </section>
 
       <FAQ items={FAQS} title="Society solar, made simple." />
-      <CTASection title="Want a committee-ready proposal?" subtitle="Free site visit and a documentation pack tailored for AGM approval." />
+
+      <section className="container-js py-16 lg:py-20">
+        <div className="text-center max-w-2xl mx-auto">
+          <span className="eyebrow">Request a committee-ready proposal</span>
+          <h2 className="section-title mt-3">Free site visit. AGM-ready documentation.</h2>
+          <p className="mt-3 text-[15px] text-[rgb(var(--js-muted))]">
+            Share a few details and a Junna solar expert will reach out within one business day with a tailored proposal for your society or institution.
+          </p>
+        </div>
+        <div className="mt-10">
+          <LeadForm
+            defaultSegment="society"
+            source="societies"
+            title="Get a society / institution proposal"
+            subtitle="Tell us about your community. We'll prepare a committee-ready proposal with ROI and documentation."
+          />
+        </div>
+      </section>
     </>
   );
 }

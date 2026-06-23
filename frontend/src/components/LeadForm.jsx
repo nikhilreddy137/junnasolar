@@ -44,7 +44,7 @@ export const LeadForm = ({
   const [form, setForm] = useState({
     segment: SEGMENTS.find((s) => s.key === initialSegment) ? initialSegment : "home",
     city: params.get("city") || "",
-    monthly_bill: params.get("bill") || "",
+    monthly_bill: params.get("bill") || estimatorData?.monthlyBill || "",
     property_type: "",
     rooftop_area: "",
     industry_type: "",
