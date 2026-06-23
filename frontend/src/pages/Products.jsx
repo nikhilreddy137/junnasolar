@@ -123,36 +123,36 @@ const STRUCTURE_PRODUCTS = [
 const ProductCard = ({ product, accent }) => (
   <div
     className={`group rounded-[24px] overflow-hidden border bg-white shadow-sm hover:shadow-xl transition-all duration-300 ${
-      accent ? "border-[rgb(var(--js-primary))] ring-2 ring-[rgb(var(--js-primary))]/20" : "border-[rgb(var(--js-border))]"
+      accent ? "border-[var(--sr-navy)] ring-2 ring-[var(--sr-navy)]/20" : "border-[var(--sr-border)]"
     }`}
   >
-    <div className="relative overflow-hidden aspect-[4/3] bg-[rgb(var(--js-bg-alt))]">
+    <div className="relative overflow-hidden aspect-[4/3] bg-[var(--sr-cream)]">
       <img
         src={product.image}
         alt={`${product.name} ${product.subtitle}`}
         className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
       />
       {product.badge && (
-        <span className="absolute top-3 left-3 bg-[rgb(var(--js-primary))] text-white text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full">
+        <span className="absolute top-3 left-3 bg-[var(--sr-navy)] text-white text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full">
           {product.badge}
         </span>
       )}
     </div>
     <div className="p-5">
-      <p className="text-[10px] uppercase tracking-widest text-[rgb(var(--js-muted))] font-medium">MonoPerc Module</p>
-      <h3 className="mt-1 text-lg font-semibold text-[rgb(var(--js-text))]">{product.name}</h3>
-      <p className="text-sm text-[rgb(var(--js-primary-dark))] font-medium">{product.subtitle}</p>
+      <p className="text-[10px] uppercase tracking-widest text-[var(--sr-muted)] font-medium">MonoPerc Module</p>
+      <h3 className="mt-1 text-lg font-semibold text-[var(--sr-navy)]">{product.name}</h3>
+      <p className="text-sm text-[var(--sr-navy)] font-medium">{product.subtitle}</p>
       <div className="mt-4 grid grid-cols-2 gap-2">
         {product.specs.map((s) => (
-          <div key={s.label} className="rounded-xl bg-[rgb(var(--js-bg-alt))] px-3 py-2">
-            <p className="text-[9px] uppercase tracking-widest text-[rgb(var(--js-muted))]">{s.label}</p>
-            <p className="mt-0.5 text-[12px] font-semibold text-[rgb(var(--js-text))]">{s.value}</p>
+          <div key={s.label} className="rounded-xl bg-[var(--sr-cream)] px-3 py-2">
+            <p className="text-[9px] uppercase tracking-widest text-[var(--sr-muted)]">{s.label}</p>
+            <p className="mt-0.5 text-[12px] font-semibold text-[var(--sr-navy)]">{s.value}</p>
           </div>
         ))}
       </div>
       <Link
         to="/contact?action=enquire"
-        className="mt-4 flex items-center justify-center gap-2 w-full rounded-full py-2.5 text-[13px] font-medium border border-[rgb(var(--js-border))] text-[rgb(var(--js-text))] hover:bg-[rgb(var(--js-text))] hover:text-white hover:border-[rgb(var(--js-text))] transition-all duration-200"
+        className="mt-4 flex items-center justify-center gap-2 w-full rounded-full py-2.5 text-[13px] font-medium border border-[var(--sr-border)] text-[var(--sr-navy)] hover:bg-[var(--sr-navy)] hover:text-white hover:border-[var(--sr-navy)] transition-all duration-200"
       >
         Enquire now <ArrowRight className="h-3.5 w-3.5" />
       </Link>
@@ -170,18 +170,18 @@ const SolarModuleSection = () => (
         <span className="eyebrow">Solar Modules</span>
         <h2 className="section-title mt-3">
           High-Efficiency Solar Modules:{" "}
-          <span className="text-[rgb(var(--js-primary))]">Powering India's Future</span>
+          <span className="text-[var(--sr-navy)]">Powering India's Future</span>
         </h2>
-        <p className="mt-4 text-[rgb(var(--js-muted))] leading-relaxed">
+        <p className="mt-4 text-[var(--sr-muted)] leading-relaxed">
           Experience quality and reliability with Junna Solar's MonoPerc and TopCon solar modules.
           ALMM approved and designed for long-lasting performance, our modules ensure efficient
           energy generation and better return on investment.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <span className="chip bg-[rgb(var(--js-primary))]/10 border-[rgb(var(--js-primary))]/30 text-[rgb(var(--js-primary-dark))]">
+          <span className="chip bg-[var(--sr-navy)]/10 border-[var(--sr-navy)]/30 text-[var(--sr-navy)]">
             ALMM Approved
           </span>
-          <span className="chip bg-[rgb(var(--js-accent))]/10 border-[rgb(var(--js-accent))]/30 text-[rgb(var(--js-text))]">
+          <span className="chip bg-[#E96B3C]/10 border-[#E96B3C]/30 text-[var(--sr-navy)]">
             BIS Certified
           </span>
           <span className="chip">25-Year Warranty</span>
@@ -218,20 +218,20 @@ const SolarModuleSection = () => (
 
     {/* TopCon Teaser */}
     <section className="py-10 lg:py-12">
-      <div className="rounded-[28px] bg-gradient-to-br from-[rgb(var(--js-text))] to-[rgb(var(--js-text))]/80 text-white p-8 lg:p-12 flex flex-col lg:flex-row items-start lg:items-center gap-6">
+      <div className="rounded-[28px] bg-gradient-to-br from-[var(--sr-navy)] to-[#2a3380] text-white p-8 lg:p-12 flex flex-col lg:flex-row items-start lg:items-center gap-6">
         <div className="flex-1">
           <span className="inline-block text-[10px] uppercase tracking-widest font-semibold text-white/60 mb-2">
             TopCon Modules
           </span>
-          <h3 className="text-2xl lg:text-3xl font-semibold">Explore Our Range of Premium TopCon Modules</h3>
-          <p className="mt-3 text-white/70 leading-relaxed max-w-xl">
+          <h3 className="text-2xl lg:text-3xl font-medium tracking-tight">Explore Our Range of Premium TopCon Modules</h3>
+          <p className="mt-3 text-white/75 leading-relaxed max-w-xl">
             Next-generation N-type TopCon technology from our 650 MW factory. Higher efficiency,
             lower degradation, and superior performance in Indian heat conditions. Coming soon.
           </p>
         </div>
         <Link
           to="/contact?action=enquire"
-          className="shrink-0 inline-flex items-center gap-2 rounded-full bg-white text-[rgb(var(--js-text))] px-6 py-3 text-sm font-semibold hover:bg-white/90 transition"
+          className="shrink-0 inline-flex items-center gap-2 rounded-full bg-white text-[var(--sr-navy)] px-6 py-3 text-sm font-semibold hover:bg-white/90 transition"
         >
           Get notified <ArrowRight className="h-4 w-4" />
         </Link>
@@ -243,7 +243,7 @@ const SolarModuleSection = () => (
       <div className="mb-10">
         <span className="eyebrow">Module Features</span>
         <h3 className="section-title mt-2">Our Solar Modules: Engineered for Performance</h3>
-        <p className="mt-3 text-[rgb(var(--js-muted))] max-w-2xl">
+        <p className="mt-3 text-[var(--sr-muted)] max-w-2xl">
           Our modules combine advanced technology, durable construction, and industry-leading
           efficiency to provide you with reliable and cost-effective solar energy.
         </p>
@@ -252,10 +252,10 @@ const SolarModuleSection = () => (
         {MODULE_FEATURES.map((f) => (
           <div
             key={f}
-            className="flex items-start gap-3 rounded-2xl border border-[rgb(var(--js-border))] bg-white p-4 hover:shadow-md transition"
+            className="flex items-start gap-3 rounded-2xl border border-[var(--sr-border)] bg-white p-4 hover:shadow-md transition"
           >
-            <CheckCircle2 className="h-4 w-4 text-[rgb(var(--js-primary))] mt-0.5 shrink-0" />
-            <span className="text-sm text-[rgb(var(--js-text))]">{f}</span>
+            <CheckCircle2 className="h-4 w-4 text-[var(--sr-navy)] mt-0.5 shrink-0" />
+            <span className="text-sm text-[var(--sr-navy)]">{f}</span>
           </div>
         ))}
       </div>
@@ -266,7 +266,7 @@ const SolarModuleSection = () => (
       <div className="mb-8">
         <span className="eyebrow">Manufacturing Facility</span>
         <h3 className="section-title mt-2">Manufacturing Facility</h3>
-        <p className="mt-3 text-[rgb(var(--js-muted))] max-w-2xl">
+        <p className="mt-3 text-[var(--sr-muted)] max-w-2xl">
           World class 750 MW+ solar module manufacturing capacity with N-type TOPCon &amp; P-type PERC.
         </p>
       </div>
@@ -274,7 +274,7 @@ const SolarModuleSection = () => (
         {MANUFACTURE_IMAGES.map((img) => (
           <div
             key={img.id}
-            className="rounded-[20px] overflow-hidden aspect-square bg-[rgb(var(--js-bg-alt))] hover:shadow-lg transition"
+            className="rounded-[20px] overflow-hidden aspect-square bg-[var(--sr-cream)] hover:shadow-lg transition"
           >
             <img src={img.src} alt={img.alt} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
           </div>
@@ -287,7 +287,7 @@ const SolarModuleSection = () => (
       <div className="mb-8">
         <span className="eyebrow">Certifications</span>
         <h3 className="section-title mt-2">Meeting Global Standards</h3>
-        <p className="mt-3 text-[rgb(var(--js-muted))] max-w-2xl">
+        <p className="mt-3 text-[var(--sr-muted)] max-w-2xl">
           Our solar modules meet the highest industry standards for quality, performance and safety.
         </p>
       </div>
@@ -295,7 +295,7 @@ const SolarModuleSection = () => (
         {CERT_IMAGES.map((cert) => (
           <div
             key={cert.id}
-            className="rounded-[20px] border border-[rgb(var(--js-border))] bg-white p-4 flex items-center justify-center aspect-square hover:shadow-md transition"
+            className="rounded-[20px] border border-[var(--sr-border)] bg-white p-4 flex items-center justify-center aspect-square hover:shadow-md transition"
           >
             <img src={cert.src} alt={cert.alt} className="max-h-full max-w-full object-contain" />
           </div>
@@ -312,15 +312,15 @@ const SolarCellSection = () => (
         <span className="eyebrow">Solar Cell</span>
         <h2 className="section-title mt-3">
           High-Performance Cells:{" "}
-          <span className="text-[rgb(var(--js-primary))]">Quality You Can Rely On</span>
+          <span className="text-[var(--sr-navy)]">Quality You Can Rely On</span>
         </h2>
-        <p className="mt-4 text-[rgb(var(--js-muted))] leading-relaxed">
+        <p className="mt-4 text-[var(--sr-muted)] leading-relaxed">
           Junna Solar's advanced solar cell technology ensures high efficiency and reliable solar
           energy generation. We focus on research and development to deliver high-quality solar
           cell solutions in India.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <span className="chip bg-[rgb(var(--js-primary))]/10 border-[rgb(var(--js-primary))]/30 text-[rgb(var(--js-primary-dark))]">
+          <span className="chip bg-[var(--sr-navy)]/10 border-[var(--sr-navy)]/30 text-[var(--sr-navy)]">
             High Efficiency
           </span>
           <span className="chip">R&amp;D Backed</span>
@@ -358,11 +358,11 @@ const SolarCellSection = () => (
           { icon: CheckCircle2, title: "25-Year Warranty", desc: "Industry-leading linear performance warranty backed by Junna Solar's in-house service and support team." },
         ].map((item) => (
           <div key={item.title} className="card-js hover:shadow-lg transition-shadow">
-            <span className="grid h-11 w-11 place-items-center rounded-xl bg-[rgb(var(--js-primary))]/10 text-[rgb(var(--js-primary-dark))]">
+            <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--sr-navy)]/10 text-[var(--sr-navy)]">
               <item.icon className="h-5 w-5" />
             </span>
-            <h4 className="mt-4 font-semibold text-[rgb(var(--js-text))]">{item.title}</h4>
-            <p className="mt-2 text-sm text-[rgb(var(--js-muted))] leading-relaxed">{item.desc}</p>
+            <h4 className="mt-4 font-semibold text-[var(--sr-navy)]">{item.title}</h4>
+            <p className="mt-2 text-sm text-[var(--sr-muted)] leading-relaxed">{item.desc}</p>
           </div>
         ))}
       </div>
@@ -370,10 +370,10 @@ const SolarCellSection = () => (
 
     {/* CTA banner */}
     <section className="py-10">
-      <div className="rounded-[28px] bg-[rgb(var(--js-bg-alt))] border border-[rgb(var(--js-border))] p-8 lg:p-12 flex flex-col lg:flex-row items-start lg:items-center gap-6">
+      <div className="rounded-[28px] bg-[var(--sr-cream)] border border-[var(--sr-border)] p-8 lg:p-12 flex flex-col lg:flex-row items-start lg:items-center gap-6">
         <div className="flex-1">
           <h3 className="text-xl lg:text-2xl font-semibold">Interested in bulk cell procurement?</h3>
-          <p className="mt-2 text-[rgb(var(--js-muted))]">
+          <p className="mt-2 text-[var(--sr-muted)]">
             We supply solar cells to module manufacturers and EPC contractors across India.
             Get in touch for pricing and availability.
           </p>
@@ -396,9 +396,9 @@ const MountingStructureSection = () => (
         <span className="eyebrow">Mounting Structures</span>
         <h2 className="section-title mt-3">
           High-Quality Solar Mounting Structures:{" "}
-          <span className="text-[rgb(var(--js-primary))]">Tailored to Need</span>
+          <span className="text-[var(--sr-navy)]">Tailored to Need</span>
         </h2>
-        <p className="mt-4 text-[rgb(var(--js-muted))] leading-relaxed">
+        <p className="mt-4 text-[var(--sr-muted)] leading-relaxed">
           Choose durable solar mounting structures designed to withstand harsh weather conditions
           and provide long-lasting support for solar panels. Junna Solar offers high-quality
           mounting structures for reliable solar installations in India.
@@ -411,35 +411,35 @@ const MountingStructureSection = () => (
           <div
             key={product.id}
             className={`rounded-[28px] overflow-hidden border bg-white shadow-sm hover:shadow-xl transition-all duration-300 ${
-              i === 0 ? "border-[rgb(var(--js-primary))] ring-2 ring-[rgb(var(--js-primary))]/20" : "border-[rgb(var(--js-border))]"
+              i === 0 ? "border-[var(--sr-navy)] ring-2 ring-[var(--sr-navy)]/20" : "border-[var(--sr-border)]"
             }`}
           >
-            <div className="relative overflow-hidden aspect-video bg-[rgb(var(--js-bg-alt))]">
+            <div className="relative overflow-hidden aspect-video bg-[var(--sr-cream)]">
               <img
                 src={product.image}
                 alt={product.name}
                 className="w-full h-full object-contain p-6 hover:scale-105 transition-transform duration-500"
               />
               {i === 0 && (
-                <span className="absolute top-3 left-3 bg-[rgb(var(--js-primary))] text-white text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full">
+                <span className="absolute top-3 left-3 bg-[var(--sr-navy)] text-white text-[10px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full">
                   Most Popular
                 </span>
               )}
             </div>
             <div className="p-6 lg:p-8">
-              <h3 className="text-xl font-semibold text-[rgb(var(--js-text))]">{product.name}</h3>
-              <p className="mt-3 text-sm text-[rgb(var(--js-muted))] leading-relaxed">{product.description}</p>
+              <h3 className="text-xl font-semibold text-[var(--sr-navy)]">{product.name}</h3>
+              <p className="mt-3 text-sm text-[var(--sr-muted)] leading-relaxed">{product.description}</p>
               <ul className="mt-5 grid gap-2">
                 {product.features.map((f) => (
                   <li key={f} className="flex items-start gap-2.5 text-sm">
-                    <CheckCircle2 className="h-4 w-4 text-[rgb(var(--js-primary))] mt-0.5 shrink-0" />
+                    <CheckCircle2 className="h-4 w-4 text-[var(--sr-navy)] mt-0.5 shrink-0" />
                     <span>{f}</span>
                   </li>
                 ))}
               </ul>
               <Link
                 to="/contact?action=enquire"
-                className="mt-6 flex items-center justify-center gap-2 w-full rounded-full py-3 text-[13px] font-semibold bg-[rgb(var(--js-text))] text-white hover:bg-[rgb(var(--js-text))]/90 transition"
+                className="mt-6 flex items-center justify-center gap-2 w-full rounded-full py-3 text-[13px] font-semibold bg-[var(--sr-navy)] text-white hover:bg-[var(--sr-navy)]/90 transition"
               >
                 Enquire now <ArrowRight className="h-4 w-4" />
               </Link>
@@ -463,11 +463,11 @@ const MountingStructureSection = () => (
           { icon: CheckCircle2, title: "Custom Engineering", desc: "Structures engineered for your specific roof type, load requirements, and tilt angle." },
         ].map((item) => (
           <div key={item.title} className="card-js hover:shadow-lg transition-shadow">
-            <span className="grid h-11 w-11 place-items-center rounded-xl bg-[rgb(var(--js-primary))]/10 text-[rgb(var(--js-primary-dark))]">
+            <span className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--sr-navy)]/10 text-[var(--sr-navy)]">
               <item.icon className="h-5 w-5" />
             </span>
             <h4 className="mt-4 font-semibold">{item.title}</h4>
-            <p className="mt-2 text-sm text-[rgb(var(--js-muted))] leading-relaxed">{item.desc}</p>
+            <p className="mt-2 text-sm text-[var(--sr-muted)] leading-relaxed">{item.desc}</p>
           </div>
         ))}
       </div>
@@ -498,7 +498,7 @@ export default function Products() {
             alt="Junna Solar manufacturing"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[rgb(var(--js-text))]/90 via-[rgb(var(--js-text))]/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[var(--sr-navy)]/90 via-[var(--sr-navy)]/70 to-transparent" />
         </div>
 
         {/* Content */}
@@ -509,7 +509,7 @@ export default function Products() {
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
               High-Quality Solar{" "}
-              <span className="text-[rgb(var(--js-primary))]">Modules, Cells</span>{" "}
+              <span className="text-[var(--sr-navy)]">Modules, Cells</span>{" "}
               &amp; Structures
             </h1>
             <p className="mt-5 text-lg text-white/75 leading-relaxed max-w-xl">
@@ -548,7 +548,7 @@ export default function Products() {
       </section>
 
       {/* ── Tab Navigation ───────────────────────────────────────────────── */}
-      <div className="sticky top-[64px] lg:top-[80px] z-30 bg-[rgb(var(--js-bg))]/95 backdrop-blur border-b border-[rgb(var(--js-border))]">
+      <div className="sticky top-[64px] lg:top-[80px] z-30 bg-[var(--sr-card-bg)]/95 backdrop-blur border-b border-[var(--sr-border)]">
         <div className="container-js">
           <div className="flex overflow-x-auto scrollbar-none">
             {TABS.map((tab) => (
@@ -557,13 +557,13 @@ export default function Products() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`relative shrink-0 px-6 py-4 text-[13px] font-medium transition whitespace-nowrap ${
                   activeTab === tab.id
-                    ? "text-[rgb(var(--js-text))]"
-                    : "text-[rgb(var(--js-muted))] hover:text-[rgb(var(--js-text))]"
+                    ? "text-[var(--sr-navy)]"
+                    : "text-[var(--sr-muted)] hover:text-[var(--sr-navy)]"
                 }`}
               >
                 {tab.label}
                 {activeTab === tab.id && (
-                  <span className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-[rgb(var(--js-primary))]" />
+                  <span className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-[var(--sr-navy)]" />
                 )}
               </button>
             ))}
