@@ -28,7 +28,7 @@ export default function Businesses() {
     <>
       <Hero
         eyebrow="For Businesses · C&I"
-        title={<>Reduce operating electricity costs with <span className="text-[rgb(var(--js-primary))]">commercial solar</span>.</>}
+        title={<>Reduce operating electricity costs with <span className="text-[var(--sr-navy)]">commercial solar</span>.</>}
         subtitle="Custom ROI/payback proposals, CAPEX or OPEX (PPA) modes, EPC and lifetime O&M for factories, warehouses, schools, hospitals and offices."
         imageUrl={IMG.industrial}
         showStats={false}
@@ -36,11 +36,11 @@ export default function Businesses() {
 
       {/* Bill capture lead form pulled close to top */}
       <section className="container-js -mt-10 lg:-mt-14 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-5">
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
+          <div className="lg:col-span-7">
             <LeadForm defaultSegment="business" source="businesses" title="Request a custom proposal" subtitle="Share your monthly bill or sanctioned load — we'll come back with an ROI/payback model." />
           </div>
-          <div className="lg:col-span-7 space-y-5">
+          <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-24">
             <Tile icon={LineChart} t="ROI & payback model" d="Tariff escalation, CAPEX/OPEX comparison, NPV/IRR scenarios on request." />
             <Tile icon={Factory} t="Industrial-grade EPC" d="Design, structures, electrical BoS, SCADA monitoring, net-metering & approvals." />
             <Tile icon={ShieldCheck} t="Compliance & warranties" d="Tier-1 modules, IS / IEC compliant BoS, workmanship + manufacturer warranties." />
@@ -70,12 +70,12 @@ export default function Businesses() {
 
 const Tile = ({ icon: Icon, t, d }) => (
   <div className="card-js flex items-start gap-4">
-    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[rgb(var(--js-bg-alt))] text-[rgb(var(--js-primary-dark))]">
+    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[var(--sr-cream)] text-[var(--sr-navy)]">
       <Icon className="h-5 w-5" />
     </span>
     <div>
-      <h3 className="text-base font-semibold">{t}</h3>
-      <p className="mt-1 text-sm text-[rgb(var(--js-muted))]">{d}</p>
+      <h3 className="text-base font-medium tracking-tight">{t}</h3>
+      <p className="mt-1 text-sm text-[var(--sr-muted)]">{d}</p>
     </div>
   </div>
 );

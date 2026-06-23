@@ -150,7 +150,7 @@ export const LeadForm = ({
 
   if (done) {
     return (
-      <div data-testid="lead-success" className="card-js text-center max-w-xl mx-auto">
+      <div data-testid="lead-success" className="card-js text-center w-full">
         <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[var(--sr-cream)] text-[var(--sr-navy)]">
           <CheckCircle2 className="h-7 w-7" />
         </div>
@@ -164,7 +164,7 @@ export const LeadForm = ({
   const reqStar = <span className="text-[#B0413E]">*</span>;
 
   return (
-    <div className="card-js max-w-xl mx-auto" data-testid="lead-form">
+    <div className="card-js w-full" data-testid="lead-form">
       <div>
         <h3 className="text-xl sm:text-2xl font-medium tracking-tight">{title}</h3>
         <p className="mt-1 text-sm text-[var(--sr-muted)]">{subtitle}</p>
