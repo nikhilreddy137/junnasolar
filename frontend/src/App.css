@@ -1,0 +1,2 @@
+/* App-level styles. Most styling lives in tailwind + index.css tokens. */
+.App { isolation: isolate; }

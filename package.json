@@ -1,0 +1,10 @@
+{
+  "name": "junna-solar",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "cd frontend && yarn install --frozen-lockfile",
+    "start": "cd frontend && BROWSER=none PORT=3000 yarn start",
+    "build": "cd frontend && CI=false yarn build"
+  }
+}
