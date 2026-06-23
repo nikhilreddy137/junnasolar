@@ -225,7 +225,6 @@ export default function Home() {
       <div id="savings-estimator">
         <HomeSavingsEstimator />
       </div>
-      <Numbers />
       <Why />
       <SegmentCards />
       <HowItWorks />
