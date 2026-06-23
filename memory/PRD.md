@@ -55,3 +55,17 @@ Duplicates on Phone/Email update the existing lead's audit notes instead of crea
 - P2: Real PDF/image upload (Zoho `Upload_Electricity_Bill` field)
 - P3: Add "Junna Website" to Lead_Source picklist in Zoho
 - P3: WhatsApp auto-receipt on lead submission
+
+## Hero & Image System (2026-01)
+- Replaced unreliable Unsplash IDs (some returned wind turbines, farm workers, even sneakers!) with **real Junna Solar case-study photos** from `admin.junnasolar.com` for every page hero.
+- Fixed `Hero.jsx` to actually honour props (was hardcoded to show homepage hero on every page). Now accepts `eyebrow`, `title`, `subtitle`, `imageUrl`, `showStats`, primary/secondary/whatsapp CTAs.
+- Strengthened gradient overlay (94% → 20% navy from left to right) so the H1 always reads clearly regardless of image content.
+- Image quality bumped to `w=2400&q=90` everywhere; `fetchpriority=high` & `loading=eager` on the hero.
+
+| Page | Hero image | Source |
+|---|---|---|
+| `/` | Residential install w/ homeowners | JUNNA case study |
+| `/businesses` | Textile ground-mount aerial | JUNNA case study |
+| `/societies` | Society install with people | JUNNA case study |
+| `/homes` | Custom layout (existing) | JUNNA case study |
+| `/contact`, `/about`, `/trust` | Various | JUNNA case studies |

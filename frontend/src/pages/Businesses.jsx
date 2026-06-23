@@ -28,7 +28,7 @@ export default function Businesses() {
     <>
       <Hero
         eyebrow="For Businesses · C&I"
-        title={<>Reduce operating electricity costs with <span className="text-[var(--sr-navy)]">commercial solar</span>.</>}
+        title={<>Reduce operating electricity costs with <em style={{ fontStyle: "italic", color: "rgba(255,255,255,0.85)" }}>commercial solar</em>.</>}
         subtitle="Custom ROI/payback proposals, CAPEX or OPEX (PPA) modes, EPC and lifetime O&M for factories, warehouses, schools, hospitals and offices."
         imageUrl={IMG.industrial}
         showStats={false}

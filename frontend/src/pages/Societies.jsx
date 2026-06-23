@@ -27,9 +27,9 @@ export default function Societies() {
     <>
       <Hero
         eyebrow="Societies · Institutions"
-        title={<>Solar for apartments, communities, schools, <span className="text-[rgb(var(--js-primary))]">colleges & hospitals</span>.</>}
+        title={<>Solar for apartments, communities, schools, <em style={{ fontStyle: "italic", color: "rgba(255,255,255,0.85)" }}>colleges & hospitals</em>.</>}
         subtitle="Lower maintenance bills for residents, lower electricity costs for institutions — with committee-ready proposals and end-to-end EPC."
-        imageUrl={IMG.solarFarm}
+        imageUrl={IMG.heroSocieties}
         showStats={false}
       />
 
@@ -87,12 +87,12 @@ export default function Societies() {
 
 const Tile = ({ icon: Icon, t, d }) => (
   <div className="card-js flex items-start gap-4">
-    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[rgb(var(--js-bg-alt))] text-[rgb(var(--js-primary-dark))]">
+    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-[var(--sr-cream)] text-[var(--sr-navy)]">
       <Icon className="h-5 w-5" />
     </span>
     <div>
-      <h3 className="text-base font-semibold">{t}</h3>
-      <p className="mt-1 text-sm text-[rgb(var(--js-muted))]">{d}</p>
+      <h3 className="text-base font-medium tracking-tight">{t}</h3>
+      <p className="mt-1 text-sm text-[var(--sr-muted)]">{d}</p>
     </div>
   </div>
 );
