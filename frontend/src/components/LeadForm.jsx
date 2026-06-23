@@ -6,13 +6,10 @@ import { track, EVENTS } from "@/lib/analytics";
 import { toast } from "sonner";
 
 /**
- * LeadForm — single shared lead form used on Contact, Homes, Businesses, Societies.
- * Submits to /api/zoho/lead → Zoho CRM with proper custom-field mapping.
+ * LeadForm — single shared lead form used on Contact, Homes, Businesses,
+ * Societies and the Savings Estimator result. Submits to /api/zoho/lead.
  *
- * Segment → Zoho:
- *   home / society     → Lead_Type B2C, Layout B2C
- *   business           → Lead_Type B2B, Layout B2B
- *   government         → Lead_Type B2G, Layout B2C
+ * Uses the site-wide Sunrun design tokens (--sr-*).
  */
 const SEGMENTS = [
   { key: "home",       label: "Home" },
@@ -30,17 +27,25 @@ const PROPERTY_TYPES = {
 
 const BUDGET_OPTIONS = ["Under 1 Lakh", "1-3 Lakh", "3-6 Lakh", "Above 6 Lakh"];
 
+// Chip class — Sunrun-themed: navy outline (unselected) → solid navy (selected)
+const chipClass = (active) =>
+  "rounded-full border px-3 py-2 text-[13px] sm:text-sm font-medium transition " +
+  (active
+    ? "border-[var(--sr-navy)] bg-[var(--sr-navy)] text-white shadow-sm"
+    : "border-[var(--sr-border)] bg-white text-[var(--sr-navy)] hover:border-[var(--sr-navy)] hover:bg-[var(--sr-cream)]");
+
+const errText = "mt-1 text-xs text-[#B0413E]"; // sunrun-friendly red
+
 export const LeadForm = ({
   defaultSegment = "home",
   source = "contact",
   title = "Get a free solar assessment",
-  subtitle = "A solar expert will review your details and contact you within one business day.",
+  subtitle = "Share a few details. A Junna solar expert will call you within one business day. No payment, no obligation.",
   estimatorData = null,
 }) => {
   const [params] = useSearchParams();
-
-  // Allow Contact page to be prefilled via ?segment=&bill=&kw=&city=
   const initialSegment = params.get("segment") || defaultSegment;
+
   const [form, setForm] = useState({
     segment: SEGMENTS.find((s) => s.key === initialSegment) ? initialSegment : "home",
     city: params.get("city") || "",
@@ -58,7 +63,6 @@ export const LeadForm = ({
     preferred_callback: "",
   });
 
-  // Ensure a default property type is set per segment
   useEffect(() => {
     setForm((s) => ({ ...s, property_type: s.property_type || PROPERTY_TYPES[s.segment][0] }));
   }, [form.segment]);
@@ -147,40 +151,37 @@ export const LeadForm = ({
   if (done) {
     return (
       <div data-testid="lead-success" className="card-js text-center max-w-xl mx-auto">
-        <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[rgb(var(--js-primary))]/10 text-[rgb(var(--js-primary-dark))]">
+        <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[var(--sr-cream)] text-[var(--sr-navy)]">
           <CheckCircle2 className="h-7 w-7" />
         </div>
-        <h3 className="mt-4 text-2xl font-semibold">You&apos;re in. Thanks!</h3>
-        <p className="mt-2 text-sm text-[rgb(var(--js-muted))]">{successMsg}</p>
+        <h3 className="mt-4 text-2xl font-medium tracking-tight">You&apos;re in. Thanks!</h3>
+        <p className="mt-2 text-sm text-[var(--sr-muted)]">{successMsg}</p>
       </div>
     );
   }
 
   const propertyOptions = PROPERTY_TYPES[form.segment] || PROPERTY_TYPES.home;
+  const reqStar = <span className="text-[#B0413E]">*</span>;
 
   return (
     <div className="card-js max-w-xl mx-auto" data-testid="lead-form">
       <div>
-        <h3 className="text-xl sm:text-2xl font-semibold tracking-tight">{title}</h3>
-        <p className="mt-1 text-sm text-[rgb(var(--js-muted))]">{subtitle}</p>
+        <h3 className="text-xl sm:text-2xl font-medium tracking-tight">{title}</h3>
+        <p className="mt-1 text-sm text-[var(--sr-muted)]">{subtitle}</p>
       </div>
 
       <form onSubmit={onSubmit} className="mt-6 grid gap-4">
-        {/* ── Segment selector ── */}
+        {/* ── Segment ── */}
         <div>
-          <label className="label-js">I am enquiring for</label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <label className="label-js">I am enquiring for {reqStar}</label>
+          <div className="flex flex-wrap gap-2">
             {SEGMENTS.map((s) => (
               <button
                 key={s.key}
                 type="button"
                 data-testid={`leadform-segment-${s.key}`}
                 onClick={() => update("segment", s.key)}
-                className={`rounded-xl border px-2 py-2 text-[12px] sm:text-sm font-medium transition ${
-                  form.segment === s.key
-                    ? "border-[rgb(var(--js-primary))] bg-[rgb(var(--js-primary))] text-white"
-                    : "border-[rgb(var(--js-border))] bg-white text-[rgb(var(--js-text))] hover:bg-[rgb(var(--js-bg-alt))]"
-                }`}
+                className={chipClass(form.segment === s.key)}
               >
                 {s.label}
               </button>
@@ -188,54 +189,54 @@ export const LeadForm = ({
           </div>
         </div>
 
-        {/* ── Identity (always required) ── */}
+        {/* ── Identity ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="lf-name" className="label-js">Full name <span className="text-[rgb(var(--js-danger))]">*</span></label>
+            <label htmlFor="lf-name" className="label-js">Full name {reqStar}</label>
             <input id="lf-name" data-testid="lf-name" value={form.name} onChange={(e) => update("name", e.target.value)} className="input-js" />
-            {errors.name && <p className="mt-1 text-xs text-[rgb(var(--js-danger))]">{errors.name}</p>}
+            {errors.name && <p className={errText}>{errors.name}</p>}
           </div>
           <div>
-            <label htmlFor="lf-phone" className="label-js">Phone <span className="text-[rgb(var(--js-danger))]">*</span></label>
+            <label htmlFor="lf-phone" className="label-js">Phone {reqStar}</label>
             <input id="lf-phone" data-testid="lf-phone" inputMode="tel" value={form.phone} onChange={(e) => update("phone", e.target.value)} placeholder="+91 9XXXXXXXXX" className="input-js" />
-            {errors.phone && <p className="mt-1 text-xs text-[rgb(var(--js-danger))]">{errors.phone}</p>}
+            {errors.phone && <p className={errText}>{errors.phone}</p>}
           </div>
         </div>
 
         <div>
-          <label htmlFor="lf-email" className="label-js">Email <span className="text-[rgb(var(--js-muted))] text-xs">(optional)</span></label>
+          <label htmlFor="lf-email" className="label-js">Email <span className="text-[var(--sr-muted)] text-xs">(optional)</span></label>
           <input id="lf-email" data-testid="lf-email" type="email" value={form.email} onChange={(e) => update("email", e.target.value)} className="input-js" />
-          {errors.email && <p className="mt-1 text-xs text-[rgb(var(--js-danger))]">{errors.email}</p>}
+          {errors.email && <p className={errText}>{errors.email}</p>}
         </div>
 
         {/* ── Segment-specific identification ── */}
         {form.segment === "business" && (
           <div>
-            <label htmlFor="lf-industry" className="label-js">Industry / Business type <span className="text-[rgb(var(--js-danger))]">*</span></label>
+            <label htmlFor="lf-industry" className="label-js">Industry / Business type {reqStar}</label>
             <input id="lf-industry" data-testid="lf-industry" value={form.industry_type} onChange={(e) => update("industry_type", e.target.value)} placeholder="e.g. Pharma, Textile, Cold storage" className="input-js" />
-            {errors.industry_type && <p className="mt-1 text-xs text-[rgb(var(--js-danger))]">{errors.industry_type}</p>}
+            {errors.industry_type && <p className={errText}>{errors.industry_type}</p>}
           </div>
         )}
 
         {form.segment === "government" && (
           <div>
-            <label htmlFor="lf-gov" className="label-js">Department / Institution name <span className="text-[rgb(var(--js-danger))]">*</span></label>
+            <label htmlFor="lf-gov" className="label-js">Department / Institution name {reqStar}</label>
             <input id="lf-gov" data-testid="lf-gov" value={form.government_name} onChange={(e) => update("government_name", e.target.value)} placeholder="e.g. ZP High School, District Hospital" className="input-js" />
-            {errors.government_name && <p className="mt-1 text-xs text-[rgb(var(--js-danger))]">{errors.government_name}</p>}
+            {errors.government_name && <p className={errText}>{errors.government_name}</p>}
           </div>
         )}
 
-        {/* ── Property details ── */}
+        {/* ── Property ── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="lf-city" className="label-js">City or pincode <span className="text-[rgb(var(--js-danger))]">*</span></label>
+            <label htmlFor="lf-city" className="label-js">City or pincode {reqStar}</label>
             <input id="lf-city" data-testid="lf-city" value={form.city} onChange={(e) => update("city", e.target.value)} placeholder="Hyderabad / 500001" className="input-js" />
-            {errors.city && <p className="mt-1 text-xs text-[rgb(var(--js-danger))]">{errors.city}</p>}
+            {errors.city && <p className={errText}>{errors.city}</p>}
           </div>
           <div>
-            <label htmlFor="lf-bill" className="label-js">Avg. monthly electricity bill (₹) <span className="text-[rgb(var(--js-danger))]">*</span></label>
+            <label htmlFor="lf-bill" className="label-js">Avg. monthly bill (₹) {reqStar}</label>
             <input id="lf-bill" data-testid="lf-bill" inputMode="numeric" value={form.monthly_bill} onChange={(e) => update("monthly_bill", e.target.value.replace(/[^0-9]/g, ""))} placeholder="3500" className="input-js" />
-            {errors.monthly_bill && <p className="mt-1 text-xs text-[rgb(var(--js-danger))]">{errors.monthly_bill}</p>}
+            {errors.monthly_bill && <p className={errText}>{errors.monthly_bill}</p>}
           </div>
         </div>
 
@@ -247,21 +248,21 @@ export const LeadForm = ({
             </select>
           </div>
           <div>
-            <label htmlFor="lf-area" className="label-js">Rooftop area (sq.ft) <span className="text-[rgb(var(--js-muted))] text-xs">(optional)</span></label>
+            <label htmlFor="lf-area" className="label-js">Rooftop area (sq.ft) <span className="text-[var(--sr-muted)] text-xs">(optional)</span></label>
             <input id="lf-area" data-testid="lf-area" inputMode="numeric" value={form.rooftop_area} onChange={(e) => update("rooftop_area", e.target.value.replace(/[^0-9]/g, ""))} placeholder="500" className="input-js" />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="lf-budget" className="label-js">Budget range <span className="text-[rgb(var(--js-muted))] text-xs">(optional)</span></label>
+            <label htmlFor="lf-budget" className="label-js">Budget range <span className="text-[var(--sr-muted)] text-xs">(optional)</span></label>
             <select id="lf-budget" data-testid="lf-budget" value={form.budget_range} onChange={(e) => update("budget_range", e.target.value)} className="input-js">
               <option value="">Prefer not to say</option>
               {BUDGET_OPTIONS.map((b) => <option key={b}>{b}</option>)}
             </select>
           </div>
           <div>
-            <label htmlFor="lf-callback" className="label-js">Preferred callback time <span className="text-[rgb(var(--js-muted))] text-xs">(optional)</span></label>
+            <label htmlFor="lf-callback" className="label-js">Preferred callback time <span className="text-[var(--sr-muted)] text-xs">(optional)</span></label>
             <select id="lf-callback" data-testid="lf-callback" value={form.preferred_callback} onChange={(e) => update("preferred_callback", e.target.value)} className="input-js">
               <option value="">No preference</option>
               <option>9 AM – 12 PM</option>
@@ -273,15 +274,15 @@ export const LeadForm = ({
         </div>
 
         <div>
-          <label htmlFor="lf-notes" className="label-js">Notes <span className="text-[rgb(var(--js-muted))] text-xs">(optional)</span></label>
-          <textarea id="lf-notes" data-testid="lf-notes" rows={3} value={form.notes} onChange={(e) => update("notes", e.target.value)} placeholder="Roof type, shading, urgency, sanctioned load, anything that helps." className="input-js"></textarea>
+          <label htmlFor="lf-notes" className="label-js">Notes <span className="text-[var(--sr-muted)] text-xs">(optional)</span></label>
+          <textarea id="lf-notes" data-testid="lf-notes" rows={3} value={form.notes} onChange={(e) => update("notes", e.target.value)} placeholder="Roof type, shading, urgency, sanctioned load — anything that helps." className="input-js"></textarea>
         </div>
 
-        <p className="text-[11px] text-[rgb(var(--js-muted))]">
-          No payment required. No obligation. A solar expert will review your details and contact you.
+        <p className="text-[11px] text-[var(--sr-muted)]">
+          No payment required. No obligation. A Junna solar expert will review your details and contact you.
         </p>
 
-        <button type="submit" data-testid="lf-submit" disabled={submitting} className="btn-primary disabled:opacity-60">
+        <button type="submit" data-testid="lf-submit" disabled={submitting} className="btn-primary disabled:opacity-60 mt-1">
           {submitting ? <><Loader2 className="h-4 w-4 animate-spin" /> Submitting…</> : "Submit & book free survey"}
         </button>
       </form>

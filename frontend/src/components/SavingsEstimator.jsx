@@ -36,12 +36,15 @@ const SEGMENTS = [
   { key: "government",  label: "Government" },
 ];
 
+const chipClass = (active) =>
+  "rounded-full border px-3 py-2 text-[13px] sm:text-sm font-medium transition " +
+  (active
+    ? "border-[var(--sr-navy)] bg-[var(--sr-navy)] text-white shadow-sm"
+    : "border-[var(--sr-border)] bg-white text-[var(--sr-navy)] hover:border-[var(--sr-navy)] hover:bg-[var(--sr-cream)]");
+
 /**
  * SavingsEstimator — calculator only.
- * After computing the result, the unified LeadForm is shown beneath,
- * prefilled with bill, segment and estimated system size.
- *
- * This guarantees the SAME lead-capture form is used everywhere on the site.
+ * After computing, the unified LeadForm appears beneath, prefilled.
  */
 export const SavingsEstimator = ({ defaultSegment = "home" }) => {
   const [segment, setSegment] = useState(defaultSegment);
@@ -57,7 +60,6 @@ export const SavingsEstimator = ({ defaultSegment = "home" }) => {
     const r = calcSavings(segment, b);
     setResult(r);
     track(EVENTS.CALC_COMPLETE, { segment, bill: b });
-    // Smooth scroll to result after a tick
     setTimeout(() => {
       document.getElementById("estimator-result")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 50);
@@ -68,29 +70,25 @@ export const SavingsEstimator = ({ defaultSegment = "home" }) => {
       <div className="text-center max-w-2xl mx-auto">
         <span className="eyebrow">Savings estimator</span>
         <h2 className="section-title mt-3">See your savings in 30 seconds.</h2>
-        <p className="mt-3 text-[15px] text-[rgb(var(--js-muted))]">
-          A quick indicative range based on your average monthly bill. No personal details needed to see numbers.
+        <p className="mt-3 text-[15px] text-[var(--sr-muted)]">
+          A quick indicative range based on your average monthly bill. No personal details required to see numbers.
         </p>
       </div>
 
       <div className="mt-10 grid lg:grid-cols-5 gap-6 items-start">
-        {/* ── Calculator ── */}
+        {/* Calculator */}
         <div className="card-js lg:col-span-2">
           <form onSubmit={onCalculate} className="grid gap-4" data-testid="estimator-form">
             <div>
               <label className="label-js">I am estimating for</label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="flex flex-wrap gap-2">
                 {SEGMENTS.map((s) => (
                   <button
                     key={s.key}
                     type="button"
                     data-testid={`est-segment-${s.key}`}
                     onClick={() => { setSegment(s.key); setResult(null); }}
-                    className={`rounded-xl border px-3 py-2 text-sm font-medium transition ${
-                      segment === s.key
-                        ? "border-[rgb(var(--js-primary))] bg-[rgb(var(--js-primary))] text-white"
-                        : "border-[rgb(var(--js-border))] bg-white text-[rgb(var(--js-text))] hover:bg-[rgb(var(--js-bg-alt))]"
-                    }`}
+                    className={chipClass(segment === s.key)}
                   >
                     {s.label}
                   </button>
@@ -109,28 +107,28 @@ export const SavingsEstimator = ({ defaultSegment = "home" }) => {
                 placeholder="e.g. 3500"
                 className="input-js"
               />
-              {error && <p className="mt-1 text-xs text-[rgb(var(--js-danger))]">{error}</p>}
+              {error && <p className="mt-1 text-xs text-[#B0413E]">{error}</p>}
             </div>
 
             <button type="submit" data-testid="est-calculate" className="btn-primary">
               <Calculator className="h-4 w-4" /> See my savings
             </button>
 
-            <p className="text-[11px] text-[rgb(var(--js-muted))]">
+            <p className="text-[11px] text-[var(--sr-muted)]">
               Indicative only. A free site visit gives exact numbers based on roof, shading, sanctioned load and tariff slab.
             </p>
           </form>
         </div>
 
-        {/* ── Result ── */}
+        {/* Result + LeadForm */}
         <div id="estimator-result" className="lg:col-span-3 space-y-4">
           {!result ? (
             <div className="card-js text-center">
-              <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[rgb(var(--js-bg-alt))] text-[rgb(var(--js-primary-dark))]">
+              <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-[var(--sr-cream)] text-[var(--sr-navy)]">
                 <Sun className="h-7 w-7" />
               </div>
-              <h3 className="mt-4 text-lg font-semibold">Enter your bill to estimate</h3>
-              <p className="mt-1 text-sm text-[rgb(var(--js-muted))]">
+              <h3 className="mt-4 text-lg font-medium">Enter your bill to estimate</h3>
+              <p className="mt-1 text-sm text-[var(--sr-muted)]">
                 We&apos;ll show your indicative monthly savings, system size and payback.
               </p>
             </div>
@@ -138,12 +136,12 @@ export const SavingsEstimator = ({ defaultSegment = "home" }) => {
             <>
               <div className="card-js">
                 <div className="flex items-center gap-3">
-                  <div className="grid h-11 w-11 place-items-center rounded-xl bg-[rgb(var(--js-primary))]/10 text-[rgb(var(--js-primary-dark))]">
+                  <div className="grid h-11 w-11 place-items-center rounded-xl bg-[var(--sr-cream)] text-[var(--sr-navy)]">
                     <TrendingUp className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-wide text-[rgb(var(--js-muted))]">Indicative monthly savings</p>
-                    <p className="text-2xl font-semibold tracking-tight">
+                    <p className="text-xs uppercase tracking-wide text-[var(--sr-muted)]">Indicative monthly savings</p>
+                    <p className="text-2xl font-medium tracking-tight">
                       {inr(result.monthly_savings_min)} – {inr(result.monthly_savings_max)}
                     </p>
                   </div>
@@ -155,13 +153,12 @@ export const SavingsEstimator = ({ defaultSegment = "home" }) => {
                 </div>
               </div>
 
-              {/* ── Unified LeadForm prefilled from result ── */}
               <LeadForm
-                key={`${segment}-${bill}`}  // remount with new defaults if user re-calculates
+                key={`${segment}-${bill}`}
                 defaultSegment={segment}
                 source="savings-estimator"
                 title="Lock in these savings — book a free survey"
-                subtitle="Share your details and a Junna solar expert will call within one business day with an exact, no-obligation quote."
+                subtitle="Share your details and a Junna solar expert will call you within one business day with an exact, no-obligation quote."
                 estimatorData={{
                   monthlyBill: bill,
                   systemSizeKw: result.system_size_kw_min,
@@ -180,9 +177,9 @@ export const SavingsEstimator = ({ defaultSegment = "home" }) => {
 };
 
 const Stat = ({ label, value }) => (
-  <div className="rounded-xl border border-[rgb(var(--js-border))] bg-white px-3 py-3">
-    <p className="text-[11px] uppercase tracking-wide text-[rgb(var(--js-muted))]">{label}</p>
-    <p className="mt-1 text-sm font-semibold">{value}</p>
+  <div className="rounded-xl border border-[var(--sr-border)] bg-white px-3 py-3">
+    <p className="text-[11px] uppercase tracking-wide text-[var(--sr-muted)]">{label}</p>
+    <p className="mt-1 text-sm font-medium">{value}</p>
   </div>
 );
 
