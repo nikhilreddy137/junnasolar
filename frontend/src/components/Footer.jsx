@@ -1,105 +1,119 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Sun, Facebook, Instagram, Youtube, MessageCircle, Linkedin } from "lucide-react";
+import { BRAND, QUOTE_URL } from "@/lib/brand";
+
+const COLUMNS = [
+  { title: "Solutions", links: [
+    ["Residential Solar", "/solutions/residential"],
+    ["Commercial Solar", "/solutions/commercial"],
+    ["Housing Societies", "/solutions/societies"],
+    ["Institutions", "/solutions/institutions"],
+    ["Hybrid Systems", "/solutions/hybrid"],
+  ]},
+  { title: "Products", links: [
+    ["Solar PV Panels", "/products/solar-panels"],
+    ["Solar Inverters", "/products/inverters"],
+    ["Solar Batteries", "/products/batteries"],
+    ["Mounting Structures", "/products/mounting-structures"],
+    ["Solar Water Pumps", "/products/water-pumps"],
+    ["Solar Street Lights", "/products/street-lights"],
+  ]},
+  { title: "Services", links: [
+    ["Free Rooftop Survey", "/services/survey"],
+    ["EPC Services", "/services/epc"],
+    ["Subsidy Guidance", "/services/subsidy"],
+    ["AMC & Maintenance", "/services/amc"],
+    ["Net Metering Support", "/services/net-metering"],
+  ]},
+  { title: "Company", links: [
+    ["About Us", "/about"],
+    ["Our Team", "/about#team"],
+    ["Certifications", "/download-certificates"],
+    ["Blog", "/blog"],
+    ["Careers", "/careers"],
+    ["Contact Us", "/contact"],
+  ]},
+];
+
+const SOCIALS = [
+  { Icon: Facebook, label: "Facebook", href: BRAND.social.facebook },
+  { Icon: Instagram, label: "Instagram", href: BRAND.social.instagram },
+  { Icon: Youtube, label: "YouTube", href: BRAND.social.youtube },
+  { Icon: MessageCircle, label: "WhatsApp", href: BRAND.social.whatsapp },
+  { Icon: Linkedin, label: "LinkedIn", href: BRAND.social.linkedin },
+];
+
+const FooterLogo = () => (
+  <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
+    <span style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg,#FFB45E,#F47B22)", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+      <Sun size={20} color="#0D1B2A" strokeWidth={2.6} />
+    </span>
+    <span style={{ fontWeight: 800, fontSize: 22, color: "#fff", letterSpacing: "-0.01em" }}>Junna Solar</span>
+  </span>
+);
 
 export const Footer = () => (
-  <footer style={{ backgroundColor: "#1F2647", color: "rgba(255,255,255,0.75)" }}>
-    <div className="container-js py-16">
-      <div className="grid md:grid-cols-4 gap-10">
-        {/* Brand */}
-        <div className="md:col-span-1">
-          <img src="/junna-logo.png" alt="Junna Solar" className="h-9 w-auto brightness-0 invert mb-4" />
-          <p style={{ fontSize: "14px", lineHeight: 1.6, color: "rgba(255,255,255,0.6)" }}>
-            Rooftop solar — designed, manufactured, installed and supported by Junna Solar Systems Limited. India-built for Indian homes and businesses.
-          </p>
-          <p style={{ fontSize: "12px", marginTop: "12px", color: "rgba(255,255,255,0.4)" }}>
-            13+ years · 125+ MW deployed · 650 MW factory
-          </p>
-        </div>
-
-        {/* Explore */}
+  <footer data-testid="site-footer" style={{ background: "#0D1B2A", color: "rgba(255,255,255,0.72)" }}>
+    <div className="container-js" style={{ paddingTop: 56, paddingBottom: 24 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 18 }}>
         <div>
-          <h4 style={{ fontSize: "13px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: "16px" }}>
-            Explore
-          </h4>
-          <ul className="space-y-3">
-            {[
-              { to: "/homes", label: "Residential" },
-              { to: "/businesses", label: "Commercial" },
-              { to: "/products", label: "Products" },
-              { to: "/case-studies", label: "Stories" },
-              { to: "/about", label: "About Us" },
-              { to: "/contact", label: "Contact" },
-            ].map(({ to, label }) => (
-              <li key={to}>
-                <Link to={to} style={{ fontSize: "15px", color: "rgba(255,255,255,0.7)", textDecoration: "none" }}
-                  onMouseOver={e => e.currentTarget.style.color = "#ffffff"}
-                  onMouseOut={e => e.currentTarget.style.color = "rgba(255,255,255,0.7)"}
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <FooterLogo />
+          <p style={{ marginTop: 8, color: "#F47B22", fontSize: 13, fontStyle: "italic", margin: "8px 0 0" }}>{BRAND.tagline}</p>
         </div>
-
-        {/* Contact */}
-        <div>
-          <h4 style={{ fontSize: "13px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: "16px" }}>
-            Contact
-          </h4>
-          <ul className="space-y-3">
-            <li>
-              <a href="tel:18008906987" style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "15px", color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>
-                <Phone className="h-4 w-4 flex-shrink-0" style={{ color: "rgba(255,255,255,0.4)" }} />
-                1800 890 6987
-              </a>
-            </li>
-            <li>
-              <a href="tel:+916309395555" style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "15px", color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>
-                <Phone className="h-4 w-4 flex-shrink-0" style={{ color: "rgba(255,255,255,0.4)" }} />
-                +91 63093 95555
-              </a>
-            </li>
-            <li>
-              <a href="https://wa.me/916309395555" target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "15px", color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>
-                <MessageCircle className="h-4 w-4 flex-shrink-0" style={{ color: "#25D366" }} />
-                WhatsApp chat
-              </a>
-            </li>
-            <li>
-              <a href="mailto:info@junnasolar.com" style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "15px", color: "rgba(255,255,255,0.7)", textDecoration: "none" }}>
-                <Mail className="h-4 w-4 flex-shrink-0" style={{ color: "rgba(255,255,255,0.4)" }} />
-                info@junnasolar.com
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        {/* CTA */}
-        <div>
-          <h4 style={{ fontSize: "13px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: "16px" }}>
-            Get started
-          </h4>
-          <p style={{ fontSize: "14px", color: "rgba(255,255,255,0.6)", lineHeight: 1.6, marginBottom: "16px" }}>
-            Free rooftop assessment. No payment, no obligation.
-          </p>
-          <Link to="/contact?action=survey" className="btn-white" style={{ fontSize: "14px", padding: "12px 24px" }}>
-            Get a free quote
-          </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
+          <a href={BRAND.phoneHref} data-testid="footer-phone" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "#fff", fontSize: 16, fontWeight: 700, textDecoration: "none" }}>
+            <Phone size={15} /> {BRAND.phone}
+          </a>
+          <a href={BRAND.emailHref} data-testid="footer-email" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "rgba(255,255,255,0.78)", fontSize: 14, textDecoration: "none" }}>
+            <Mail size={14} /> {BRAND.email}
+          </a>
+          <Link to={QUOTE_URL} className="btn-primary" data-testid="footer-cta">Get Free Survey</Link>
         </div>
       </div>
 
-      {/* Bottom bar */}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", marginTop: "48px", paddingTop: "24px", display: "flex", flexWrap: "wrap", gap: "16px", justifyContent: "space-between", alignItems: "center" }}>
-        <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)" }}>
+      <hr style={{ marginTop: 32, marginBottom: 32, border: "none", borderTop: "1px solid rgba(255,255,255,0.12)" }} />
+
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 32 }}>
+        {COLUMNS.map((c) => (
+          <div key={c.title}>
+            <h4 style={{ color: "rgba(255,255,255,0.95)", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 16 }}>{c.title}</h4>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "grid", gap: 10 }}>
+              {c.links.map(([label, to]) => (
+                <li key={label}>
+                  <Link to={to} style={{ color: "rgba(255,255,255,0.72)", fontSize: 14, textDecoration: "none", transition: "color .15s" }}
+                    onMouseOver={(e) => (e.currentTarget.style.color = "#F47B22")}
+                    onMouseOut={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.72)")}>{label}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ marginTop: 32, display: "flex", alignItems: "flex-start", gap: 10, color: "rgba(255,255,255,0.72)" }}>
+        <MapPin size={16} color="#F47B22" style={{ marginTop: 2, flexShrink: 0 }} />
+        <p style={{ fontSize: 13.5, margin: 0, lineHeight: 1.55 }}>{BRAND.address}</p>
+      </div>
+
+      <hr style={{ marginTop: 28, marginBottom: 20, border: "none", borderTop: "1px solid rgba(255,255,255,0.12)" }} />
+
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 14 }}>
+        <p style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, margin: 0 }}>
           © {new Date().getFullYear()} Junna Solar Systems Limited. All rights reserved.
         </p>
-        <div style={{ display: "flex", gap: "24px" }}>
-          {["Privacy Policy", "Terms of Use"].map(t => (
-            <Link key={t} to="/contact" style={{ fontSize: "13px", color: "rgba(255,255,255,0.4)", textDecoration: "none" }}>
-              {t}
-            </Link>
+        <div style={{ display: "flex", gap: 10 }} data-testid="footer-socials">
+          {SOCIALS.map(({ Icon, label, href }) => (
+            <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
+              style={{ width: 34, height: 34, borderRadius: "50%", background: "rgba(255,255,255,0.08)", display: "inline-flex", alignItems: "center", justifyContent: "center", color: "#fff", transition: "background .15s ease" }}
+              onMouseOver={(e) => (e.currentTarget.style.background = "#F47B22")}
+              onMouseOut={(e) => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}>
+              <Icon size={15} />
+            </a>
           ))}
+        </div>
+        <div style={{ display: "flex", gap: 16 }}>
+          <Link to="/privacy" style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, textDecoration: "none" }}>Privacy Policy</Link>
+          <Link to="/terms" style={{ color: "rgba(255,255,255,0.5)", fontSize: 12, textDecoration: "none" }}>Terms of Use</Link>
         </div>
       </div>
     </div>

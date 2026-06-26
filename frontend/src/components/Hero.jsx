@@ -1,184 +1,62 @@
 import { Link } from "react-router-dom";
-import { IMG } from "@/lib/images";
+import { Landmark, Home, Award, Map } from "lucide-react";
+import { QUOTE_URL } from "@/lib/brand";
 
-/**
- * Hero — flexible page hero that ACTUALLY honours props.
- *
- * Usage:
- *   <Hero />                                       // homepage default
- *   <Hero eyebrow="..." title={...} subtitle="..." imageUrl={...} showStats={false} />
- */
-const DEFAULT_TITLE = (
-  <>
-    The bill
-    <br />
-    <em style={{ fontStyle: "italic", color: "rgba(255,255,255,0.85)" }}>stops here.</em>
-    <br />
-    Solar starts here.
-  </>
-);
+const HERO_IMG = "/hero-primary.jpg";
 
-const DEFAULT_SUBTITLE = (
-  <>
-    India-built rooftop solar from{" "}
-    <strong style={{ color: "#ffffff", fontWeight: 600 }}>Junna Solar Systems</strong> —
-    designed, manufactured, installed and supported under one roof.
-  </>
-);
+const BADGES = [
+  { Icon: Landmark, num: "MNRE", label: "Empanelled" },
+  { Icon: Home, num: "26,000+", label: "Installations" },
+  { Icon: Award, num: "13+", label: "Years Excellence" },
+  { Icon: Map, num: "8 States", label: "PAN India" },
+];
 
-const DEFAULT_EYEBROW = "Since 2012 · 125+ MW deployed · 650 MW factory";
-
-export const Hero = ({
-  eyebrow = DEFAULT_EYEBROW,
-  title = DEFAULT_TITLE,
-  subtitle = DEFAULT_SUBTITLE,
-  imageUrl = IMG.heroPrimary,
-  showStats = true,
-  primaryCta = { label: "Book free rooftop visit", to: "/contact?action=survey" },
-  secondaryCta = { label: "See my savings →", href: "#savings-estimator" },
-  whatsappCta = true,
-}) => (
-  <section style={{ position: "relative", minHeight: "90vh", display: "flex", alignItems: "center", overflow: "hidden" }}>
-    {/* Full-bleed background image */}
-    <div style={{ position: "absolute", inset: 0 }}>
-      <img
-        src={imageUrl}
-        alt="Solar installation by Junna Solar"
-        loading="eager"
-        fetchpriority="high"
-        decoding="async"
-        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 35%" }}
-      />
-      {/* Stronger left-heavy overlay so the H1 never competes with image detail */}
-      <div style={{
-        position: "absolute", inset: 0,
-        background:
-          "linear-gradient(100deg, rgba(8,12,28,0.94) 0%, rgba(8,12,28,0.82) 30%, rgba(8,12,28,0.55) 60%, rgba(8,12,28,0.20) 100%)",
-      }} />
-      {/* Subtle bottom vignette for graceful fade into next section */}
-      <div style={{
-        position: "absolute", left: 0, right: 0, bottom: 0, height: "30%",
-        background: "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(8,12,28,0.55) 100%)",
-        pointerEvents: "none",
-      }} />
+export const Hero = () => (
+  <section data-testid="hero-section">
+    <div style={{ position: "relative", minHeight: "82vh", overflow: "hidden" }}>
+      <img src={HERO_IMG} alt="Indian home with rooftop solar panels at golden hour"
+        loading="eager" fetchpriority="high"
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+      <div style={{ position: "absolute", inset: 0,
+        background: "linear-gradient(to right, rgba(13,27,42,0.78) 0%, rgba(13,27,42,0.45) 50%, transparent 100%)" }} />
+      <div className="container-js" style={{ position: "relative", zIndex: 2, paddingTop: 96, paddingBottom: 96 }}>
+        <div style={{ maxWidth: 640 }}>
+          <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#F47B22", marginBottom: 18 }} data-testid="hero-eyebrow">
+            India&apos;s Trusted Solar Partner
+          </span>
+          <h1 data-testid="hero-headline" style={{ color: "#fff", fontSize: "clamp(36px, 5vw, 60px)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-0.03em", margin: 0 }}>
+            Rooftop Solar for<br />Homes, Businesses<br />&amp; Societies.
+          </h1>
+          <p data-testid="hero-subtitle" style={{ marginTop: 22, fontSize: 18, color: "rgba(255,255,255,0.88)", maxWidth: 480, lineHeight: 1.55 }}>
+            Free rooftop survey · PM Surya Ghar subsidy guidance · End-to-end EPC · 13+ years
+          </p>
+          <div style={{ marginTop: 32 }}>
+            <Link to={QUOTE_URL} className="btn-primary" data-testid="hero-cta-survey" style={{ padding: "16px 36px", fontSize: 17 }}>
+              Book Your Free Survey
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
 
-    {/* Content */}
-    <div className="container-js" style={{ position: "relative", zIndex: 10, paddingTop: "80px", paddingBottom: "80px" }}>
-      <div style={{ maxWidth: "720px" }}>
-        {/* Eyebrow */}
-        <p style={{
-          fontSize: "12px", fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase",
-          color: "rgba(255,255,255,0.7)", marginBottom: "20px",
-          display: "flex", alignItems: "center", gap: "10px",
-        }}>
-          <span style={{ width: "28px", height: "1.5px", backgroundColor: "rgba(255,255,255,0.55)", display: "inline-block" }} />
-          {eyebrow}
+    <div data-testid="trust-strip" style={{ background: "#fff", borderBottom: "1px solid #E5E7EB", padding: "22px 0" }}>
+      <div className="container-js">
+        <p style={{ textAlign: "center", fontSize: 11, letterSpacing: "0.18em", fontWeight: 700, color: "#6B7280", textTransform: "uppercase", marginBottom: 16 }}>
+          Trusted Across India
         </p>
-
-        {/* H1 */}
-        <h1 style={{
-          fontSize: "clamp(40px, 7vw, 76px)",
-          fontWeight: 500,
-          lineHeight: 1.02,
-          letterSpacing: "-0.025em",
-          color: "#ffffff",
-          margin: 0,
-          textShadow: "0 2px 24px rgba(0,0,0,0.45)",
-        }}>
-          {title}
-        </h1>
-
-        <p style={{
-          marginTop: "24px",
-          fontSize: "18px",
-          lineHeight: 1.6,
-          color: "rgba(255,255,255,0.86)",
-          maxWidth: "540px",
-          textShadow: "0 1px 8px rgba(0,0,0,0.35)",
-        }}>
-          {subtitle}
-        </p>
-
-        {/* CTAs */}
-        <div style={{ marginTop: "36px", display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "center" }}>
-          {primaryCta && (
-            <Link to={primaryCta.to} data-testid="hero-cta-primary" style={{
-              display: "inline-flex", alignItems: "center", justifyContent: "center",
-              backgroundColor: "#ffffff", color: "#1F2647",
-              fontSize: "16px", fontWeight: 600,
-              padding: "15px 32px", borderRadius: "800px",
-              textDecoration: "none", whiteSpace: "nowrap",
-              boxShadow: "0 6px 24px rgba(0,0,0,0.30)",
-              transition: "transform 0.2s ease, box-shadow 0.2s ease",
-            }}>
-              {primaryCta.label}
-            </Link>
-          )}
-          {secondaryCta && (
-            <a href={secondaryCta.href || secondaryCta.to} data-testid="hero-cta-secondary" style={{
-              display: "inline-flex", alignItems: "center", justifyContent: "center", gap: "6px",
-              backgroundColor: "transparent", color: "#ffffff",
-              fontSize: "16px", fontWeight: 500,
-              padding: "14px 28px", borderRadius: "800px",
-              border: "1.5px solid rgba(255,255,255,0.55)",
-              textDecoration: "none", whiteSpace: "nowrap",
-              transition: "border-color 0.15s ease, background-color 0.15s ease",
-            }}>
-              {secondaryCta.label}
-            </a>
-          )}
-          {whatsappCta && (
-            <a
-              href="https://wa.me/916309395555?text=Hi%20Junna%20Solar%2C%20I'd%20like%20to%20know%20more%20about%20rooftop%20solar."
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: "inline-flex", alignItems: "center", gap: "6px",
-                color: "rgba(255,255,255,0.75)", fontSize: "14px", fontWeight: 500,
-                textDecoration: "none",
-              }}
-            >
-              💬 or message us
-            </a>
-          )}
-        </div>
-
-        {/* Stats bar */}
-        {showStats && (
-          <div style={{
-            marginTop: "52px",
-            display: "flex", flexWrap: "wrap", gap: "0",
-            backgroundColor: "rgba(0,0,0,0.35)",
-            backdropFilter: "blur(12px)",
-            WebkitBackdropFilter: "blur(12px)",
-            borderRadius: "16px",
-            border: "1px solid rgba(255,255,255,0.14)",
-            overflow: "hidden",
-            maxWidth: "620px",
-          }}>
-            {[
-              { v: "13+",       l: "Years since 2012" },
-              { v: "125+ MW",   l: "Deployed" },
-              { v: "650 MW",    l: "TopCon factory" },
-              { v: "10+ states", l: "Pan-India" },
-            ].map(({ v, l }, i) => (
-              <div key={l} style={{
-                flex: "1 1 120px",
-                padding: "16px 20px",
-                borderRight: i < 3 ? "1px solid rgba(255,255,255,0.12)" : "none",
-              }}>
-                <p style={{ fontSize: "clamp(18px, 2.5vw, 22px)", fontWeight: 600, color: "#ffffff", lineHeight: 1.1, margin: 0 }}>{v}</p>
-                <p style={{ fontSize: "11px", fontWeight: 500, letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(255,255,255,0.55)", marginTop: "4px" }}>{l}</p>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 0, justifyContent: "center", alignItems: "center" }}>
+          {BADGES.map(({ Icon, num, label }, i) => (
+            <div key={label} data-testid={`trust-badge-${i}`} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 28px", borderRight: i < BADGES.length - 1 ? "1px solid #E5E7EB" : "none", flex: "0 1 auto" }}>
+              <span style={{ width: 32, height: 32, borderRadius: 8, background: "rgba(244,123,34,0.12)", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+                <Icon size={16} color="#F47B22" strokeWidth={2.2} />
+              </span>
+              <div>
+                <div style={{ fontSize: 16, fontWeight: 700, color: "#F47B22", lineHeight: 1 }}>{num}</div>
+                <div style={{ fontSize: 11, color: "#6B7280", marginTop: 2, fontWeight: 500 }}>{label}</div>
               </div>
-            ))}
-          </div>
-        )}
-
-        {/* Toll-free line */}
-        <p style={{ marginTop: showStats ? "20px" : "32px", fontSize: "13px", color: "rgba(255,255,255,0.55)" }}>
-          Toll-free <a href="tel:18008906987" style={{ color: "rgba(255,255,255,0.85)", fontWeight: 600, textDecoration: "none" }}>1800 890 6987</a> · Mon–Sat, 9 AM – 7 PM IST
-        </p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </section>
